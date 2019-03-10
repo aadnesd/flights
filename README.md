@@ -5,7 +5,7 @@ A script for finding cheap flights with Norwegian. Mostly because google flights
 
 Example input:
 
-orig = "OSL"  for Oslo 
+orig = "OSL"  for Oslo   
 destination = "PAR" for Paris   
 date = "2019-05-01"  "year-month-day"  
 
