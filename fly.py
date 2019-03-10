@@ -3,48 +3,6 @@ import requests
 from calendar import monthrange
 
 from datetime import timedelta, date, datetime
-"""
-Example input:
-
-orig = "OSL"  for Oslo
-destination = "PAR" for Paris 
-date = "2018-10-01"  "year-month-day"
-
-"""
-
-
-""" 
-
-Some IATA airport codes
-
-"""
-
-#USA
-los_angeles = "LAX"
-orlando = "MCO"
-san_francisco = "OAK"
-fort_lauderdale = "FLL"
-new_york = "JFK"
-
-#ASIA
-bangkok = "BKK"
-
-#EUROPE
-barcelona = "BCN"
-paris = "PAR"
-budapest = "BUD"
-trondheim = "TRD"
-manchester = "MAN"
-milano = "MXP"
-nice = "NCE"
-reykjavik = "KEF"
-madrid = "MAD"
-
-#AFRICA
-marrakech = "RAK"
-
-
-
 
 
 """
@@ -92,7 +50,6 @@ def find_cheapest_in_month(orig, destination, year_month):
         pris = kalender.json()['outbound']['days'][dag]
         if pris['price'] <= cheapest[0] and pris['price'] > 0:
             cheapest = (pris['price'],dag)
-            day = dag
             cheapest_array.append((pris['price'],dag,year_month[1]))
             if len(cheapest_array) > 1:
                 max_ = max(cheapest_array)
@@ -111,22 +68,25 @@ def find_cheapest_from_date_to_date(orig, destination, start_date, end_date):
     today = datetime.today()
     for year_month in month_year_iter(int(start_date[5:7]),int(start_date[0:4]),int(end_date[5:7])+1,int(end_date[0:4])):
         if year_month[1] < today.month and year_month[0] <= today.year:
-            print(year_month,"er før dags dato")
-            continue
+            print(year_month,"is before today's date. Please input a date no earlier than today")
+            exit(1)
         temp_cheapest = find_cheapest_in_month(orig,destination,year_month)
         if temp_cheapest[0][0] < cheapest[0][0]:
             cheapest = temp_cheapest
             cheap_month = year_month[1]
         elif temp_cheapest[0][0] == cheapest[0][0]:
             cheapest.append(temp_cheapest)
-    print("Billigaste datoen til ", destination,"fra ", orig, "er: ", cheapest, ' ', cheap_month)
+    print("The cheapest date to ", destination,"from ", orig, "is: ", cheapest, ' ', cheap_month)
     return cheapest
 
+"""
+Example of use, finds the cheapest flights from Trondheim to Madrid, San Francisco and Orlando
+from the first of April to the first of August.
+"""
+cities_list = ["MAD","OAK","MCO"]
 
-by_liste = ["MAD","OAK","MCO"]
-
-for by in by_liste:
-    find_cheapest_from_date_to_date('TRD', by, '2018-09-01', '2019-03-01')
+for city in cities_list:
+    find_cheapest_from_date_to_date('TRD', city, '2019-04-01', '2019-08-01')
 
 
 
