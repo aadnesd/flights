@@ -1,4 +1,5 @@
 # flights
+Not finished
 
 A script for finding cheap flights with Norwegian. Mostly because google flights etc doesn't find youth tickets.
 
